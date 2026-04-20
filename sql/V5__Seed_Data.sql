@@ -78,4 +78,36 @@ VALUES (
 INSERT INTO reservas (id_investigador, id_laboratorio, fecha_inicio, hora_inicio, fecha_fin, hora_fin)
 VALUES (
     (SELECT id_investigador FROM investigadores WHERE email='luis1@lab.com'),
-    (SELECT id_laboratorio FROM laboratorios WHERE codig
+    (SELECT id_laboratorio FROM laboratorios WHERE codigo='LAB-004'),
+    '2026-04-22', '09:00', '2026-04-22', '11:00'
+);
+
+-- Más reservas válidas
+INSERT INTO reservas (id_investigador, id_laboratorio, fecha_inicio, hora_inicio, fecha_fin, hora_fin) VALUES
+((SELECT id_investigador FROM investigadores WHERE email='ana1@lab.com'),
+ (SELECT id_laboratorio FROM laboratorios WHERE codigo='LAB-002'),
+ '2026-04-23', '10:00', '2026-04-23', '12:00'),
+
+((SELECT id_investigador FROM investigadores WHERE email='maria1@lab.com'),
+ (SELECT id_laboratorio FROM laboratorios WHERE codigo='LAB-003'),
+ '2026-04-24', '13:00', '2026-04-24', '15:00'),
+
+((SELECT id_investigador FROM investigadores WHERE email='jorge1@lab.com'),
+ (SELECT id_laboratorio FROM laboratorios WHERE codigo='LAB-005'),
+ '2026-04-25', '08:00', '2026-04-25', '09:30');
+
+-- ============================================================================
+-- SECCIÓN 7: actualización de equipos (dispara trigger auditoría)
+-- ============================================================================
+
+UPDATE equipos 
+SET estado = 'MANTENIMIENTO'
+WHERE codigo_serial = 'EQ-001';
+
+UPDATE equipos 
+SET estado = 'DISPONIBLE'
+WHERE codigo_serial = 'EQ-002';
+
+-- ============================================================================
+-- FIN DE MIGRACIÓN V5
+-- ============================================================================
